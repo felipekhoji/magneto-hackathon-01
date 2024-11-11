@@ -1,20 +1,19 @@
 package db
 
-import "database/sql"
+import (
+	"magneto-hackathon-01/pkg/database"
+)
 
 type ExchangeDB interface {
 	AddExchangeRate(fromCurrency string, toCurrency string, rate float64) error
 	GetExchangeRate(fromCurrency string, toCurrency string) (float64, error)
 }
 
-type DatabaseImpl struct {
-	db *sql.DB
+type ExchangeDBImpl struct {
 }
 
-func NewExchangeDB(db *sql.DB) ExchangeDB {
-	return &DatabaseImpl{
-		db: db,
-	}
+func NewExchangeDB() ExchangeDB {
+	return &ExchangeDBImpl{}
 }
 
 func (db *DatabaseImpl) AddExchangeRate(fromCurrency string, toCurrency string, rate float64) error {

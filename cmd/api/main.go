@@ -10,6 +10,8 @@ import (
 )
 
 func main() {
+
+	// set up database
 	absPath := os.Getenv("PWD")
 	databaseFilePath := absPath + config.LocalDBPath
 	err := database.InitDB(databaseFilePath)
@@ -17,7 +19,8 @@ func main() {
 		panic(err) // TODO: handle error
 	}
 
-	exchangeDB := db.NewExchangeDB(nil)
+	// inject dependencies
+	exchangeDB := db.NewExchangeDB()
 	exchange := usecase.NewExchangeUseCase(exchangeDB)
 
 	// ref. https://gin-gonic.com/docs/quickstart/#getting-started
@@ -29,7 +32,7 @@ func main() {
 	})
 
 	r.GET("/exchange-rate", func(c *gin.Context) {
-		exchangeRate, err := exchange.GetExchangeRate("BRL", "USD")
+		exchangeRate, err := exchange.GetExchangeRate("BRL", "USD") // TODO: query params
 		if err != nil {
 			// TODO: handle error
 			c.JSON(500, gin.H{
@@ -44,7 +47,7 @@ func main() {
 	})
 
 	r.POST("/exchange-rate", func(c *gin.Context) {
-		exchangeRate, err := exchange.PostExchangeRate("BRL", "USD", 6.00)
+		exchangeRate, err := exchange.PostExchangeRate("BRL", "USD", 6.00) // TODO: query params
 		if err != nil {
 			// TODO: handle error
 			c.JSON(500, gin.H{
