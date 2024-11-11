@@ -16,10 +16,21 @@ func NewExchangeDB() ExchangeDB {
 	return &ExchangeDBImpl{}
 }
 
-func (db *DatabaseImpl) AddExchangeRate(fromCurrency string, toCurrency string, rate float64) error {
-	panic("implement me")
+func (db *ExchangeDBImpl) AddExchangeRate(fromCurrency string, toCurrency string, rate float64) error {
+	err := database.AddExchangeRate(fromCurrency, toCurrency, rate)
+	if err != nil {
+		return err // TODO: handle error
+	}
+
+	return nil
 }
 
-func (db *DatabaseImpl) GetExchangeRate(fromCurrency string, toCurrency string) (float64, error) {
-	panic("implement me")
+func (db *ExchangeDBImpl) GetExchangeRate(fromCurrency string, toCurrency string) (float64, error) {
+	rate, err := database.GetExchangeRate(fromCurrency, toCurrency)
+	if err != nil {
+		return rate, err // TODO: handle error
+	}
+
+	return rate, nil
+
 }

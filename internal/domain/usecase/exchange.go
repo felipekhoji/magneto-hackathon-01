@@ -22,12 +22,20 @@ func NewExchangeUseCase(exchangeDb db.ExchangeDB) ExchangeUseCase {
 
 func (e *exchangeUseCaseImpl) GetExchangeRate(fromCurrency string, toCurrency string) (float64, error) {
 	fmt.Println("[GetExchangeRate]")
-	e.ExchangeDB.GetExchangeRate(fromCurrency, toCurrency)
-	return 0, nil
+	rate, err := e.ExchangeDB.GetExchangeRate(fromCurrency, toCurrency)
+	if err != nil {
+		return rate, err // TODO: handle error
+	}
+
+	return rate, nil
 }
 
 func (e *exchangeUseCaseImpl) PostExchangeRate(fromCurrency string, toCurrency string, rate float64) (float64, error) {
 	fmt.Println("[PostExchangeRate]")
-	e.ExchangeDB.AddExchangeRate(fromCurrency, toCurrency, rate)
-	return 0, nil
+	err := e.ExchangeDB.AddExchangeRate(fromCurrency, toCurrency, rate)
+	if err != nil {
+		return rate, err // TODO: handle error
+	}
+
+	return rate, nil
 }
