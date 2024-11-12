@@ -7,6 +7,7 @@ import (
 	"magneto-hackathon-01/internal/infrastructure/db"
 	"magneto-hackathon-01/pkg/database"
 	"os"
+	"strconv"
 )
 
 func main() {
@@ -32,7 +33,9 @@ func main() {
 	})
 
 	r.GET("/exchange-rate", func(c *gin.Context) {
-		exchangeRate, err := exchange.GetExchangeRate("BRL", "USD") // TODO: query params
+		fromCurrency := c.Query("from")
+		toCurrency := c.Query("to")
+		exchangeRate, err := exchange.GetExchangeRate(fromCurrency, toCurrency) // TODO: query params
 		if err != nil {
 			// TODO: handle error
 			c.JSON(500, gin.H{
@@ -47,7 +50,10 @@ func main() {
 	})
 
 	r.POST("/exchange-rate", func(c *gin.Context) {
-		exchangeRate, err := exchange.PostExchangeRate("BRL", "USD", 6.00) // TODO: query params
+		fromCurrency := c.Query("from")
+		toCurrency := c.Query("to")
+		exchangeRate, _ := strconv.ParseFloat(c.Query("rate"), 64)
+		exchangeRateResp, err := exchange.PostExchangeRate(fromCurrency, toCurrency, exchangeRate) // TODO: query params
 		if err != nil {
 			// TODO: handle error
 			c.JSON(500, gin.H{
@@ -57,7 +63,7 @@ func main() {
 		}
 
 		c.JSON(200, gin.H{
-			"converted_amount": exchangeRate,
+			"converted_amount": exchangeRateResp,
 		})
 	})
 
