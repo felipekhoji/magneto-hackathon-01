@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"fmt"
-	"magneto-hackathon-01/internal/infrastructure/db"
+	"magneto-hackathon-01/internal/infrastructure/datasource"
 )
 
 type ExchangeUseCase interface {
@@ -11,10 +11,10 @@ type ExchangeUseCase interface {
 }
 
 type exchangeUseCaseImpl struct {
-	ExchangeDB db.ExchangeDB
+	ExchangeDB datasource.ExchangeDB
 }
 
-func NewExchangeUseCase(exchangeDb db.ExchangeDB) ExchangeUseCase {
+func NewExchangeUseCase(exchangeDb datasource.ExchangeDB) ExchangeUseCase {
 	return &exchangeUseCaseImpl{
 		ExchangeDB: exchangeDb,
 	}

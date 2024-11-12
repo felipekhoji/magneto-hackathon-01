@@ -1,4 +1,4 @@
-package db
+package datasource
 
 import (
 	"magneto-hackathon-01/pkg/database"
