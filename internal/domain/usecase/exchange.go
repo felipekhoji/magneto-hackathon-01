@@ -2,12 +2,13 @@ package usecase
 
 import (
 	"fmt"
+	"magneto-hackathon-01/internal/domain/entity"
 	"magneto-hackathon-01/internal/infrastructure/datasource"
 )
 
 type ExchangeUseCase interface {
-	GetExchangeRate(fromCurrency string, toCurrency string) (float64, error)
-	PostExchangeRate(fromCurrency string, toCurrency string, rate float64) (float64, error)
+	GetExchangeRate(fromCurrency string, toCurrency string) (*entity.Exchange, error)
+	PostExchangeRate(fromCurrency string, toCurrency string, rate float64) (*entity.Exchange, error)
 }
 
 type exchangeUseCaseImpl struct {
@@ -20,22 +21,30 @@ func NewExchangeUseCase(exchangeDb datasource.ExchangeDB) ExchangeUseCase {
 	}
 }
 
-func (e *exchangeUseCaseImpl) GetExchangeRate(fromCurrency string, toCurrency string) (float64, error) {
+func (e *exchangeUseCaseImpl) GetExchangeRate(fromCurrency string, toCurrency string) (*entity.Exchange, error) {
 	fmt.Println("[GetExchangeRate]")
 	rate, err := e.ExchangeDB.GetExchangeRate(fromCurrency, toCurrency)
 	if err != nil {
-		return rate, err // TODO: handle error
+		return nil, err // TODO: handle error
 	}
 
-	return rate, nil
+	return &entity.Exchange{
+		FromCurrency: fromCurrency,
+		ToCurrency:   toCurrency,
+		Rate:         rate,
+	}, nil
 }
 
-func (e *exchangeUseCaseImpl) PostExchangeRate(fromCurrency string, toCurrency string, rate float64) (float64, error) {
+func (e *exchangeUseCaseImpl) PostExchangeRate(fromCurrency string, toCurrency string, rate float64) (*entity.Exchange, error) {
 	fmt.Println("[PostExchangeRate]")
 	err := e.ExchangeDB.AddExchangeRate(fromCurrency, toCurrency, rate)
 	if err != nil {
-		return rate, err // TODO: handle error
+		return nil, err // TODO: handle error
 	}
 
-	return rate, nil
+	return &entity.Exchange{
+		FromCurrency: fromCurrency,
+		ToCurrency:   toCurrency,
+		Rate:         rate,
+	}, nil
 }

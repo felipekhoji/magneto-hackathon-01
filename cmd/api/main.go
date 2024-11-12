@@ -44,16 +44,17 @@ func main() {
 			return
 		}
 
-		c.JSON(200, gin.H{
-			"rate": exchangeRate,
-		})
+		exchangeRateDTO := ExchangeRateDTO{
+			Rate: exchangeRate.Rate,
+		}
+		c.JSON(200, exchangeRateDTO)
 	})
 
 	r.POST("/exchange-rate", func(c *gin.Context) {
 		fromCurrency := c.Query("from")
 		toCurrency := c.Query("to")
 		exchangeRate, _ := strconv.ParseFloat(c.Query("rate"), 64)
-		exchangeRateResp, err := exchange.PostExchangeRate(fromCurrency, toCurrency, exchangeRate) // TODO: query params
+		exchangeRateResp, err := exchange.PostExchangeRate(fromCurrency, toCurrency, exchangeRate)
 		if err != nil {
 			// TODO: handle error
 			c.JSON(500, gin.H{
@@ -62,9 +63,7 @@ func main() {
 			return
 		}
 
-		c.JSON(200, gin.H{
-			"converted_amount": exchangeRateResp,
-		})
+		c.JSON(200, exchangeRateResp)
 	})
 
 	r.Run() // listen and serve on 0.0.0.0:8080
