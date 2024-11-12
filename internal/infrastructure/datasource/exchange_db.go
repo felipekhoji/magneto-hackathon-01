@@ -4,9 +4,11 @@ import (
 	"magneto-hackathon-01/pkg/database"
 )
 
+// ExchangeDB defines an interface for interacting with exchange database.
+// It supports retrieving and storing data through Getter and Poster interfaces.
 type ExchangeDB interface {
-	AddExchangeRate(fromCurrency string, toCurrency string, rate float64) error
-	GetExchangeRate(fromCurrency string, toCurrency string) (float64, error)
+	Getter
+	Poster
 }
 
 type ExchangeDBImpl struct {
@@ -32,5 +34,4 @@ func (db *ExchangeDBImpl) GetExchangeRate(fromCurrency string, toCurrency string
 	}
 
 	return rate, nil
-
 }
