@@ -31,12 +31,24 @@ func main() {
 
 	// ref. https://gin-gonic.com/docs/quickstart/#getting-started
 	r := gin.Default()
+	r.Use(middleware.ErrorHandler)
+
 	r.Use(middleware.AddRequestId)
 
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
 		})
+	})
+
+	r.GET("/error-handler-test", func(c *gin.Context) {
+		if true {
+			c.Error(fmt.Errorf("error test", 500))
+		}
+		c.JSON(500, gin.H{
+			"message": "pong",
+		})
+
 	})
 
 	r.GET("/exchange-rate", func(c *gin.Context) {
