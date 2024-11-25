@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"magneto-hackathon-01/cmd/api/controller/dto"
 	"magneto-hackathon-01/cmd/config"
+	"magneto-hackathon-01/cmd/middleware"
 	"magneto-hackathon-01/internal/domain/usecase"
 	"magneto-hackathon-01/internal/infrastructure/datasource"
 	"magneto-hackathon-01/pkg/database"
@@ -11,8 +13,7 @@ import (
 	"strconv"
 )
 
-// fazer um request_id para cada request
-// fazer um tratamento apra erros, erros genericos e especificos
+// TODO create a treatment for errors, generic and specifics errors
 
 func main() {
 
@@ -30,6 +31,8 @@ func main() {
 
 	// ref. https://gin-gonic.com/docs/quickstart/#getting-started
 	r := gin.Default()
+	r.Use(middleware.AddRequestId)
+
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
@@ -47,6 +50,8 @@ func main() {
 			})
 			return
 		}
+
+		fmt.Fprintf(os.Stdout, "/exchange-rate - request-id: %s\n", c.GetHeader("request-id"))
 
 		exchangeRateDTO := dto.ExchangeRateDTO{
 			Rate: exchangeRate.Rate,
