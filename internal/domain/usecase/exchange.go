@@ -22,7 +22,7 @@ func NewExchangeUseCase(exchangeDb datasource.ExchangeDB) ExchangeUseCase {
 }
 
 func (e *exchangeUseCaseImpl) GetExchangeRate(fromCurrency string, toCurrency string) (*entity.Exchange, error) {
-	fmt.Println("[GetExchangeRate]")
+	fmt.Println("[usecase] - GetExchangeRate")
 	rate, err := e.ExchangeDB.GetExchangeRate(fromCurrency, toCurrency)
 	if err != nil {
 		return nil, err // TODO: handle error
@@ -36,7 +36,7 @@ func (e *exchangeUseCaseImpl) GetExchangeRate(fromCurrency string, toCurrency st
 }
 
 func (e *exchangeUseCaseImpl) PostExchangeRate(fromCurrency string, toCurrency string, rate float64) (*entity.Exchange, error) {
-	fmt.Println("[PostExchangeRate]")
+	fmt.Println("[usecase] - PostExchangeRate")
 	err := e.ExchangeDB.AddExchangeRate(fromCurrency, toCurrency, rate)
 	if err != nil {
 		return nil, err // TODO: handle error

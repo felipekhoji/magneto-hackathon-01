@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"magneto-hackathon-01/cmd/api/controller/dto"
 	"magneto-hackathon-01/cmd/config"
 	"magneto-hackathon-01/internal/domain/usecase"
 	"magneto-hackathon-01/internal/infrastructure/datasource"
@@ -9,6 +10,9 @@ import (
 	"os"
 	"strconv"
 )
+
+// fazer um request_id para cada request
+// fazer um tratamento apra erros, erros genericos e especificos
 
 func main() {
 
@@ -44,7 +48,7 @@ func main() {
 			return
 		}
 
-		exchangeRateDTO := ExchangeRateDTO{
+		exchangeRateDTO := dto.ExchangeRateDTO{
 			Rate: exchangeRate.Rate,
 		}
 		c.JSON(200, exchangeRateDTO)
