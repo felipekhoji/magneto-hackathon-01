@@ -23,7 +23,8 @@ func InitDB(dbLocation string) error {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         from_currency TEXT NOT NULL,
         to_currency TEXT NOT NULL,
-        rate REAL NOT NULL
+        rate REAL NOT NULL,
+        creation_date DATETIME DEFAULT CURRENT_TIMESTAMP
     );`
 	_, err = db.Exec(createTableQuery)
 	if err != nil {
@@ -48,7 +49,7 @@ func AddExchangeRate(fromCurrency, toCurrency string, rate float64) error {
 // Função para consultar a taxa de câmbio entre duas moedas
 func GetExchangeRate(fromCurrency, toCurrency string) (float64, error) {
 	var rate float64
-	query := `SELECT rate FROM exchange_rates WHERE from_currency = ? AND to_currency = ?`
+	query := `SELECT rate FROM exchange_rates WHERE from_currency = ? AND to_currency = ? ORDER BY creation_date DESC LIMIT 1`
 	err := db.QueryRow(query, fromCurrency, toCurrency).Scan(&rate)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
