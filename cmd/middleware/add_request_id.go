@@ -17,6 +17,8 @@ func AddRequestId(c *gin.Context) {
 	}
 	c.Request.Header.Add("request-id", requestId)
 
+	// TODO: request-id is being set, but not being sent in the response header
+
 	c.Next()
 }
 
