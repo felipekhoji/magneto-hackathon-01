@@ -7,7 +7,7 @@ import (
 	"magneto-hackathon-01/cmd/config"
 	"magneto-hackathon-01/cmd/middleware"
 	"magneto-hackathon-01/internal/domain/usecase"
-	"magneto-hackathon-01/internal/infrastructure/datasource"
+	"magneto-hackathon-01/internal/infrastructure/db"
 	"magneto-hackathon-01/pkg/database"
 	"os"
 	"strconv"
@@ -26,7 +26,7 @@ func main() {
 	}
 
 	// inject dependencies
-	exchangeDB := datasource.NewExchangeDB()
+	exchangeDB := db.NewExchangeRateDB()
 	exchange := usecase.NewExchangeUseCase(exchangeDB)
 
 	// ref. https://gin-gonic.com/docs/quickstart/#getting-started
