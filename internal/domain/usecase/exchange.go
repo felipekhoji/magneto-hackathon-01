@@ -3,7 +3,7 @@ package usecase
 import (
 	"fmt"
 	"magneto-hackathon-01/internal/domain/entity"
-	"magneto-hackathon-01/internal/infrastructure/datasource"
+	"magneto-hackathon-01/internal/domain/gateway"
 )
 
 type ExchangeUseCase interface {
@@ -12,18 +12,18 @@ type ExchangeUseCase interface {
 }
 
 type exchangeUseCaseImpl struct {
-	ExchangeDB datasource.ExchangeDB
+	ExchangeRateGateway gateway.ExchangeRateGateway
 }
 
-func NewExchangeUseCase(exchangeDb datasource.ExchangeDB) ExchangeUseCase {
+func NewExchangeUseCase(gateway gateway.ExchangeRateGateway) ExchangeUseCase {
 	return &exchangeUseCaseImpl{
-		ExchangeDB: exchangeDb,
+		ExchangeRateGateway: gateway,
 	}
 }
 
 func (e *exchangeUseCaseImpl) GetExchangeRate(fromCurrency string, toCurrency string) (*entity.Exchange, error) {
 	fmt.Println("[usecase] - GetExchangeRate")
-	rate, err := e.ExchangeDB.GetExchangeRate(fromCurrency, toCurrency)
+	rate, err := e.ExchangeRateGateway.GetExchangeRate(fromCurrency, toCurrency)
 	if err != nil {
 		return nil, fmt.Errorf("not found") // TODO: handle error
 	}
@@ -37,7 +37,7 @@ func (e *exchangeUseCaseImpl) GetExchangeRate(fromCurrency string, toCurrency st
 
 func (e *exchangeUseCaseImpl) PostExchangeRate(fromCurrency string, toCurrency string, rate float64) (*entity.Exchange, error) {
 	fmt.Println("[usecase] - PostExchangeRate")
-	err := e.ExchangeDB.AddExchangeRate(fromCurrency, toCurrency, rate)
+	err := e.ExchangeRateGateway.AddExchangeRate(fromCurrency, toCurrency, rate)
 	if err != nil {
 		return nil, err // TODO: handle error
 	}

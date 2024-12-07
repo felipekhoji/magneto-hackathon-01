@@ -4,17 +4,11 @@ import (
 	"magneto-hackathon-01/pkg/database"
 )
 
-// ExchangeDB defines an interface for interacting with exchange database.
-// It supports retrieving and storing data through Getter and Poster interfaces.
-type ExchangeDB interface {
-	Getter
-	Poster
-}
-
+// ExchangeDBImpl implements the ExchangeRateGateway interface.
 type ExchangeDBImpl struct {
 }
 
-func NewExchangeDB() ExchangeDB {
+func NewExchangeDB() *ExchangeDBImpl {
 	return &ExchangeDBImpl{}
 }
 
