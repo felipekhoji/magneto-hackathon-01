@@ -15,7 +15,7 @@ func NewExchangeRateDB() *ExchangeRateDBImpl {
 func (db *ExchangeRateDBImpl) AddExchangeRate(fromCurrency string, toCurrency string, rate float64) error {
 	err := database.AddExchangeRate(fromCurrency, toCurrency, rate)
 	if err != nil {
-		return err // TODO: handle error
+		return err
 	}
 
 	return nil
@@ -24,7 +24,7 @@ func (db *ExchangeRateDBImpl) AddExchangeRate(fromCurrency string, toCurrency st
 func (db *ExchangeRateDBImpl) GetExchangeRate(fromCurrency string, toCurrency string) (float64, error) {
 	rate, err := database.GetExchangeRate(fromCurrency, toCurrency)
 	if err != nil {
-		return rate, err // TODO: handle error
+		return rate, err
 	}
 
 	return rate, nil

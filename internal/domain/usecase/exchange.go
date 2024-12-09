@@ -25,7 +25,7 @@ func (e *exchangeUseCaseImpl) GetExchangeRate(fromCurrency string, toCurrency st
 	fmt.Println("[usecase] - GetExchangeRate")
 	rate, err := e.ExchangeRateGateway.GetExchangeRate(fromCurrency, toCurrency)
 	if err != nil {
-		return nil, fmt.Errorf("not found") // TODO: handle error
+		return nil, err
 	}
 
 	return &entity.Exchange{
@@ -39,7 +39,7 @@ func (e *exchangeUseCaseImpl) PostExchangeRate(fromCurrency string, toCurrency s
 	fmt.Println("[usecase] - PostExchangeRate")
 	err := e.ExchangeRateGateway.AddExchangeRate(fromCurrency, toCurrency, rate)
 	if err != nil {
-		return nil, err // TODO: handle error
+		return nil, err
 	}
 
 	return &entity.Exchange{

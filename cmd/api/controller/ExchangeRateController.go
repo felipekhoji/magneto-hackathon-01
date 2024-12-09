@@ -24,10 +24,7 @@ func (e ExchangeRateController) GetExchangeRate(c *gin.Context) {
 	toCurrency := c.Query("to")
 	exchangeRate, err := e.exchangeRateUseCase.GetExchangeRate(fromCurrency, toCurrency) // TODO: query params
 	if err != nil {
-		// TODO: handle error
-		c.JSON(500, gin.H{
-			"message": "error getting exchange rate",
-		})
+		c.Error(err)
 		return
 	}
 
@@ -45,10 +42,7 @@ func (e ExchangeRateController) PostExchangeRate(c *gin.Context) {
 	exchangeRate, _ := strconv.ParseFloat(c.Query("rate"), 64)
 	exchangeRateResp, err := e.exchangeRateUseCase.PostExchangeRate(fromCurrency, toCurrency, exchangeRate)
 	if err != nil {
-		// TODO: handle error
-		c.JSON(500, gin.H{
-			"message": "error posting exchange rate",
-		})
+		c.Error(err)
 		return
 	}
 

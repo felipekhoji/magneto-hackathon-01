@@ -17,6 +17,15 @@ func ErrorHandler(c *gin.Context) {
 
 	// TODO: handle error for each case, 500, 400, etc.
 	fmt.Println("[middleware] - ErrorHandler - error to handle:", lastErr.Error())
+	if lastErr.Error() == "taxa de câmbio não encontrada" {
+		c.JSON(404, gin.H{
+			"message": "taxa de câmbio não encontrada",
+		})
+	} else {
+		c.JSON(500, gin.H{
+			"message": "internal server error",
+		})
+	}
 
 	c.Abort() // TODO: abort to prevent execution of other handlers, but how to use it?
 
