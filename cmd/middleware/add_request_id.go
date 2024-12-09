@@ -15,9 +15,7 @@ func AddRequestId(c *gin.Context) {
 	if err != nil {
 		fmt.Println("Error generating request id:", err)
 	}
-	//c.Request.Header.Add("request-id", requestId)
 
-	// TODO: request-id is being set, but not being sent in the response header
 	c.Writer.Header().Set("request-id", requestId)
 
 	c.Next()
